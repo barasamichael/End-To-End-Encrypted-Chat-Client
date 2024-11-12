@@ -1,9 +1,27 @@
+End-to-End Encrypted Chat Client
+
+This project implements an end-to-end encrypted chat client using the Double Ratchet Algorithm, a secure messaging protocol that combines Diffie-Hellman ratchets with symmetric-key ratchets to provide Forward Secrecy and Break-in Recovery. The client also incorporates government-mandated key-sharing requirements for surveillance purposes, allowing for session key encryption with a government-issued public key.
+
+Project Overview
+
+Key Features
+
+	•	End-to-End Encryption: Ensures that only intended recipients can read the messages.
+	•	Double Ratchet Algorithm: Provides Forward Secrecy, meaning past communications remain secure even if current keys are compromised.
+	•	Government Surveillance Key Integration: Adds functionality to comply with surveillance requirements, allowing session keys to be encrypted with a government public key for oversight.
+
+How it Works
+
+	•	Key Exchange: Alice and Bob generate Diffie-Hellman (DH) key pairs and exchange public keys to establish a shared secret.
+	•	Message Ratcheting: Each message increments the DH and symmetric ratchets, generating a unique encryption key per message for confidentiality.
+	•	Session Key Sharing for Surveillance: Each session key is encrypted with the government’s public key to allow authorized monitoring.
+
 Short-answer Questions
 
 	1.	Could the protocol be modified to increment the DH ratchets once every ten messages without compromising confidentiality?
 	•	Modifying the protocol to update the Diffie-Hellman (DH) ratchet every ten messages instead of every message would reduce the frequency of key updates. While this may still provide some confidentiality, it reduces the protection level against future compromise since the encryption keys would remain static longer, making it easier for an attacker to compromise multiple messages if they ever obtain a DH key.
 	2.	What if Alice and Bob never update their DH keys at all? Explain the security consequences.
-	•	If Alice and Bob never update their DH keys, they lose the benefits of Forward Secrecy and Break-in Recovery. Forward secrecy ensures that past messages remain secure even if future keys are compromised. Without DH updates, all messages would be vulnerable if one key were compromised. Additionally, break-in recovery allows participants to regain security after a compromise, but without DH updates, there would be no way to refresh security.
+	•	If Alice and Bob never update their DH keys, they lose the benefits of Forward Secrecy and Break-in Recovery. Forward Secrecy ensures that past messages remain secure even if future keys are compromised. Without DH updates, all messages would be vulnerable if one key were compromised. Additionally, Break-in Recovery allows participants to regain security after a compromise, but without DH updates, there would be no way to refresh security.
 	3.	In the given conversation, what is the length of the longest sending chain used by Alice? By Bob? Explain.
 	•	The longest sending chain length for Alice is 3 (since she sends three consecutive messages without receiving a message from Bob). For Bob, the longest sending chain length is 1, as he only sends a single message between receiving messages from Alice. The sending chain increments with each consecutive message sent by the same participant.
 	4.	If Mallory compromises Alice’s phone just before her third message, why can’t she determine the locker combination?
